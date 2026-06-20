@@ -1,0 +1,32 @@
+# Controlelijst robotbeoordeling
+
+- [x] WPF App `.NET 10`: `WpfDierenarts`
+- [x] Class Library `.NET 10`: `CLDierenarts`
+- [x] Project reference van WPF naar class library
+- [x] Basisklasse `Dier`
+- [x] Afgeleide klassen `Hond` en `Kat`
+- [x] Klasse `DierValidator`
+- [x] Extra klasse `Eigenaar`
+- [x] Extra enum `Urgentie`
+- [x] `Dier.GeefInfo()`
+- [x] `Dier.ToString()` met `OPGENOMEN`
+- [x] `Hond.Ras`
+- [x] `Kat.IsGevaccineerd`
+- [x] `base.GeefInfo()` in beide afgeleide klassen
+- [x] `MinimaalAantalTekensRas` standaard 3
+- [x] `IsGeldigeNaam()`
+- [x] `IsGeldigRas()`
+- [x] Linksboven filters
+- [x] Linksonder overzicht
+- [x] Rechtsboven details en `Image`
+- [x] Rechtsonder formulier
+- [x] Filter urgentie
+- [x] Filter eigenaar
+- [x] Filter alleen opgenomen
+- [x] Knop opnemen disabled bij opgenomen dier
+- [x] Validatie met duidelijke foutmelding
+- [x] Juiste object `Hond` of `Kat`
+- [x] Opslaan en overzicht herladen
+- [x] Geen SQL of databankprovider in code-behind
+- [x] Connectiestring in `App.config`
+- [x] SQL uitsluitend in class library

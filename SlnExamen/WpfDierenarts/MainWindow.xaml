@@ -1,0 +1,302 @@
+<Window x:Class="WpfDierenarts.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dierenarts - tickets"
+        Height="850"
+        Width="1320"
+        MinHeight="720"
+        MinWidth="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#EEF2F6">
+    <Window.Resources>
+        <Style x:Key="Kaart" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#D9E0E8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="18" />
+        </Style>
+
+        <Style x:Key="Titel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#20304A" />
+            <Setter Property="Margin" Value="0,0,0,14" />
+        </Style>
+
+        <Style x:Key="Label" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#44546A" />
+            <Setter Property="Margin" Value="0,0,0,5" />
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="Padding" Value="7,4" />
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="Padding" Value="7,5" />
+        </Style>
+
+        <Style TargetType="DatePicker">
+            <Setter Property="MinHeight" Value="34" />
+        </Style>
+
+        <Style x:Key="HoofdKnop" TargetType="Button">
+            <Setter Property="Background" Value="#176B87" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="16,9" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock FontSize="29"
+                           FontWeight="Bold"
+                           Foreground="#18263D"
+                           Text="Dierenartspraktijk" />
+                <TextBlock Margin="0,4,0,0"
+                           Foreground="#66758A"
+                           Text="Beheer tickets, opnames en nieuwe dieren" />
+            </StackPanel>
+            <TextBlock Grid.Column="1"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       Foreground="#66758A"
+                       Text="OOAD praktijkopgave" />
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="390" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="255" />
+                <RowDefinition Height="16" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- linksboven: filters -->
+            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Kaart}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource Titel}" Text="Filters" />
+
+                    <TextBlock Style="{StaticResource Label}" Text="Urgentie" />
+                    <ComboBox x:Name="CmbFilterUrgentie"
+                              Margin="0,0,0,12"
+                              SelectionChanged="FilterSelectie_Changed" />
+
+                    <TextBlock Style="{StaticResource Label}" Text="Eigenaar" />
+                    <ComboBox x:Name="CmbFilterEigenaar"
+                              Margin="0,0,0,14"
+                              SelectionChanged="FilterSelectie_Changed" />
+
+                    <CheckBox x:Name="ChkAlleenOpgenomen"
+                              Click="FilterOpgenomen_Click"
+                              Content="Alleen opgenomen dieren weergeven" />
+                </StackPanel>
+            </Border>
+
+            <!-- linksonder: overzicht -->
+            <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Kaart}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource Titel}" Text="Overzicht dieren" />
+                        <TextBlock x:Name="TxtAantalDieren"
+                                   Grid.Column="1"
+                                   Margin="0,5,0,14"
+                                   Foreground="#66758A"
+                                   Text="0 dieren" />
+                    </Grid>
+                    <ListBox x:Name="LbxDieren"
+                             Grid.Row="1"
+                             SelectionChanged="LbxDieren_SelectionChanged">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="10" />
+                                <Setter Property="Margin" Value="0,0,0,5" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </Grid>
+            </Border>
+
+            <!-- rechtsboven: details -->
+            <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource Kaart}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Style="{StaticResource Titel}" Text="Details van geselecteerd dier" />
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="190" />
+                            <ColumnDefinition Width="22" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0"
+                                Background="#F5F8FB"
+                                BorderBrush="#D9E0E8"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="10">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image x:Name="ImgDier"
+                                       Height="135"
+                                       Width="160"
+                                       Stretch="Uniform"
+                                       Source="Images/poot.png" />
+                                <TextBlock x:Name="TxtDierType"
+                                           Margin="0,4,0,0"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           Text="Geen selectie" />
+                            </StackPanel>
+                        </Border>
+
+                        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+                            <TextBlock x:Name="TxtDetails"
+                                       FontSize="14"
+                                       LineHeight="21"
+                                       TextWrapping="Wrap"
+                                       Text="Selecteer links een dier om alle details te bekijken." />
+                        </ScrollViewer>
+
+                        <Button x:Name="BtnDierOpnemen"
+                                Grid.Column="3"
+                                Margin="18,0,0,0"
+                                MinWidth="145"
+                                VerticalAlignment="Bottom"
+                                IsEnabled="False"
+                                Click="BtnDierOpnemen_Click"
+                                Content="Dier opnemen"
+                                Style="{StaticResource HoofdKnop}" />
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- rechtsonder: nieuw ticket -->
+            <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource Kaart}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="22" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Grid.ColumnSpan="3"
+                                   Style="{StaticResource Titel}"
+                                   Text="Nieuw ticket / dier toevoegen" />
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,12">
+                            <TextBlock Style="{StaticResource Label}" Text="Type dier" />
+                            <ComboBox x:Name="CmbNieuwType"
+                                      SelectionChanged="CmbNieuwType_SelectionChanged" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,12">
+                            <TextBlock Style="{StaticResource Label}" Text="Naam" />
+                            <TextBox x:Name="TxtNieuweNaam" MaxLength="60" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,12">
+                            <TextBlock Style="{StaticResource Label}" Text="Eigenaar" />
+                            <ComboBox x:Name="CmbNieuweEigenaar" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,0,0,12">
+                            <TextBlock Style="{StaticResource Label}" Text="Geboortedatum" />
+                            <DatePicker x:Name="DtpGeboortedatum" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,12">
+                            <TextBlock Style="{StaticResource Label}" Text="Gewicht (kg)" />
+                            <TextBox x:Name="TxtGewicht" MaxLength="10" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,0,0,12">
+                            <TextBlock Style="{StaticResource Label}" Text="Urgentie" />
+                            <ComboBox x:Name="CmbNieuweUrgentie" />
+                        </StackPanel>
+
+                        <StackPanel x:Name="PnlRas"
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Margin="0,0,0,12">
+                            <TextBlock Style="{StaticResource Label}" Text="Ras van de hond" />
+                            <TextBox x:Name="TxtRas" MaxLength="60" />
+                        </StackPanel>
+
+                        <StackPanel x:Name="PnlGevaccineerd"
+                                    Grid.Row="4"
+                                    Grid.Column="2"
+                                    Margin="0,0,0,12"
+                                    Visibility="Collapsed">
+                            <TextBlock Style="{StaticResource Label}" Text="Vaccinatie van de kat" />
+                            <CheckBox x:Name="ChkGevaccineerd"
+                                      Margin="0,8,0,0"
+                                      Content="De kat is gevaccineerd" />
+                        </StackPanel>
+
+                        <Grid Grid.Row="5" Grid.ColumnSpan="3" Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="TxtFoutmelding"
+                                       Margin="0,0,18,0"
+                                       VerticalAlignment="Center"
+                                       Foreground="#B42318"
+                                       TextWrapping="Wrap" />
+                            <Button Grid.Column="1"
+                                    MinWidth="160"
+                                    Click="BtnDierToevoegen_Click"
+                                    Content="Dier toevoegen"
+                                    Style="{StaticResource HoofdKnop}" />
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,1 +1,4 @@
-<Solution />
+<Solution>
+  <Project Path="CLDierenarts/CLDierenarts.csproj" Id="b76e50d0-e298-4ec0-b18c-46dcdf34a8d3" />
+  <Project Path="WpfDierenarts/WpfDierenarts.csproj" Id="04085287-4605-4083-9c05-4aee66a3fe7d" />
+</Solution>
